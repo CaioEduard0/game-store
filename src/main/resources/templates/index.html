@@ -9,15 +9,15 @@
 			var ids = [];
 			
 			function addProduct(id) {
-				ids.push(id)
-				alert("Product added!")
+				ids.push(id);
+				alert("Product added!");
 				document.getElementById('ids').value = ids;
 			}
 			
 			function removeProduct(id) {			
     			var pos = ids.indexOf(id);
 				ids.splice(pos, 1);
-				alert("Product removed!") 
+				alert("Product removed!"); 
 				document.getElementById('ids').value = ids;
 			}	
 	</script>
@@ -29,17 +29,15 @@
   		<div class="collapse navbar-collapse d-flex justify-content-between">
     		<ul class="navbar-nav mr-auto">
       			<li class="nav-item">
-        			<a class="nav-link" th:href="@{/products}">Home</a>
+        			<a class="nav-link" th:href="@{/}">Home</a>
       			</li>
       			<li>
       				<a class="nav-link" th:href="@{/login?logout}">Logout</a>
       			</li>
     		</ul>
-    		<div class="dropdown mr-5">
-			  	<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    	Order by
-			  	</button>
-			  	<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="max-width: 20px;">
+    		<div class="dropdown mr-5 ps-5">
+			  	<button class="btn btn-secondary dropdown-toggle pe-5 ps-5" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Order by</button>
+			  	<div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="dropdownMenuButton" style="padding-left: -200px;">
 			    	<a class="dropdown-item" th:href="@{/products/order-by-price}">Price</a>
 			    	<a class="dropdown-item" th:href="@{/products/order-by-score}">Score</a>
 			    	<a class="dropdown-item" th:href="@{/products/order-by-name}">Name</a>
@@ -52,6 +50,7 @@
 		<h1 class="display-5">Games</h1>
 	</div>
 	<br>
+	<p th:if="${error}" th:text="${error}" class="alert alert-danger" style="width: 500px; margin-left: auto; margin-right: auto;"></p>
 	<br>
 	<form th:action="@{/orders/new-order}" th:method="post">
 		<div class="container" th:each="product : ${products}">	  	

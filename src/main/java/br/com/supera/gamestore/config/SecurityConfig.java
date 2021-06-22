@@ -21,19 +21,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
+	protected void configure(HttpSecurity http) throws Exception {	
+		http.csrf().disable()
 		.authorizeRequests().antMatchers("/login/**", "/sign-up/**", "/webjars/**").permitAll()
 		.antMatchers("/admin/**").hasRole("ADMIN")
 		.and()
 		.authorizeRequests().anyRequest().authenticated()
-		.and().formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/products")
+		.and().formLogin().loginPage("/login").usernameParameter("email")
 		.and().logout().invalidateHttpSession(true).permitAll();
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+		
+		auth.inMemoryAuthentication().withUser("admin@gmail.com").password(bCryptPasswordEncoder.encode("admin")).roles("ADMIN");
 	}
 	
 	@Override

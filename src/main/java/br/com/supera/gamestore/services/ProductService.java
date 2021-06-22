@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import br.com.supera.gamestore.entities.Product;
+import br.com.supera.gamestore.exceptions.EmptyCartException;
 import br.com.supera.gamestore.repositories.ProductRepository;
 
 @Service
@@ -17,7 +18,7 @@ public class ProductService {
 	}
 	
 	public Product findProductById(Long id) {
-		return productRepository.findById(id).orElseThrow(() -> new NullPointerException());
+		return productRepository.findById(id).orElseThrow(() -> new EmptyCartException());
 	}
 	
 	public List<Product> findAllProducts() {

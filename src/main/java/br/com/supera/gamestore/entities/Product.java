@@ -26,12 +26,12 @@ public class Product implements Comparable<Product> {
 	private String name;
 	
 	@NotNull(message = "{price.not.null}")
-	@Min(value = 0, message = "{price.min}")
+	@Min(value = 1, message = "{price.min}")
 	@Max(value = 10000, message = "{price.max}")
 	private BigDecimal price;
 	
 	@NotNull(message = "{score.not.null}")
-	@Min(value = 0, message = "{score.min}")
+	@Min(value = 1, message = "{score.min}")
 	@Max(value = 1000, message = "{score.max}")
 	private short score;
 	private String image;

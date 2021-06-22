@@ -1,5 +1,6 @@
 package br.com.supera.gamestore.controllers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,34 +26,34 @@ public class ProductController {
 		this.productService = productService;
 	}
 	
-	@GetMapping("/products")
+	@GetMapping("/")
 	public String productsPage(Model model) {		
 		model.addAttribute("products", productService.findAllProducts());
-		return "products";
+		return "index";
 	}
 	
-	@GetMapping("/products/order-by-price")
-	public String productsOrderedByPrice(Model model) {
+	@GetMapping("products/order-by-price")
+	public String productsOrderedByPricePage(Model model) {
 		List<Product> products = productService.findAllProducts();
 		Collections.sort(products);
 		model.addAttribute("products", products);
-		return "products";
+		return "index";
 	}
 	
 	@GetMapping("/products/order-by-score")
-	public String productsOrderedByScore(Model model) {
+	public String productsOrderedByScorePage(Model model) {
 		List<Product> products = productService.findAllProducts();
 		Collections.sort(products, new CompareByScore());
 		model.addAttribute("products", products);
-		return "products";
+		return "index";
 	}
 	
 	@GetMapping("/products/order-by-name")
-	public String productsOrderedByName(Model model) {
+	public String productsOrderedByNamePage(Model model) {
 		List<Product> products = productService.findAllProducts();
 		Collections.sort(products, new CompareByName());
 		model.addAttribute("products", products);
-		return "products";
+		return "index";
 	}
 	
 	@GetMapping("/admin/products/register-product")
@@ -63,9 +64,20 @@ public class ProductController {
 	@PostMapping("/admin/products/register-product")
 	public String registerProduct(@Valid Product product, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("errors", bindingResult.getAllErrors());
+			List<String> messages = new ArrayList<>();
+			
+			bindingResult.getFieldErrors().forEach((error) -> {
+				int scoreError = error.getField().compareTo("score");
+				if (scoreError == 0) {
+					messages.add("The score cannot be empty, and must be between 1 and 1000!");
+					return;
+				}
+				messages.add(error.getDefaultMessage());
+			});
+			model.addAttribute("errors", messages);
 			return "register-product";
 		}
-		return "redirect:/products";
-	}	
+		productService.insertProduct(product);
+		return "redirect:/";
+	}
 }

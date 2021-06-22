@@ -54,8 +54,7 @@ public class UserController {
 			});
 			model.addAttribute("errors", messages);
 			return "sign-up";
-		}
-		
+		}		
 		try {
 			userService.insertUser(user);
 			return "redirect:/login";

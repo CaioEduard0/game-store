@@ -13,26 +13,18 @@
   		<div class="collapse navbar-collapse d-flex justify-content-between">
     		<ul class="navbar-nav mr-auto">
       			<li class="nav-item">
-        			<a class="nav-link" th:href="@{/}">Your Posts</a>
-      			</li>
-      			<li class="nav-item">
-        			<a class="nav-link" th:href="@{/}">New Post</a>
+        			<a class="nav-link" th:href="@{/}">Home</a>
       			</li>
       			<li>
       				<a class="nav-link" th:href="@{/login?logout}">Logout</a>
       			</li>
     		</ul>	
-    		<form class="form-group" th:action=@{/} >
-      			<input type="search" name="search" placeholder="Post info" class="form-control" style="display: inline; max-width: 250px; border-radius: 5px 5px 5px 5px;"/>
-				<button type="submit" class="btn btn-outline-warning input-group-append" style="border-radius: 5px 5px 5px 5px; margin: 0 30px 3px 10px">Search</button>
-    		</form>
   		</div>
 	</nav>
 	<br>
 	<div class="align-items-center">
 		<h1 class="display-5">Games</h1>
 	</div>
-	<br>
 	<br>
 	<table class="table" style="max-width: 600px; margin: auto;">
 		<thead>
@@ -48,29 +40,21 @@
 			</tr>
 		</tbody>
 	</table>
-	<!-- <div class="container align-items-center" th:each="product : ${products}">	  	
-  		<div class="card" style="width: 18rem;">
-		  	<ul class="list-group list-group-flush">
-		    	<li class="list-group-item" th:text="${product.name}"></li>
-		    	<li class="list-group-item" th:text="'R$ ' + ${product.price}"></li>
-		  	</ul>
-		</div>
-		<br>
-		<br>
-  	</div>-->
   	<br>
   	<br>
-  	<div class="container align-items-center">	  	
-  		<div class="card" style="width: 18rem;">
+  	<br>
+  	<div>	  	
+  		<div class="card" style="width: 300px; margin: auto;">
 		  	<ul class="list-group list-group-flush">
-		    	<li class="list-group-item" th:text="'Subtotal: R$ ' + ${subTotal}"></li>
-		    	<li class="list-group-item" th:text="'Shipping: R$ ' + ${shipping}"></li>
-		    	<li class="list-group-item" th:text="'Total: R$ ' + ${total}"></li>
+		    	<li class="list-group-item" th:text="'Subtotal: R$ ' + ${subTotal}" style="font-size: 20px;"></li>
+		    	<li class="list-group-item" th:text="'Shipping: R$ ' + ${shipping}" style="font-size: 20px;"></li>
+		    	<li class="list-group-item" th:text="'Total: R$ ' + ${total}" style="font-size: 25px;"></li>
 		  	</ul>
 		</div>
 		<br>
 		<br>
   	</div>
+  	<br>
   	<form th:action="@{/orders/register-order}" th:method="post" class="form-group">
   		<label>Payment
 	      		<select name="payment" class="form-control">

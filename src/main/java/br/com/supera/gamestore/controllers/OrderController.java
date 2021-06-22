@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.supera.gamestore.entities.Order;
 import br.com.supera.gamestore.entities.Product;
 import br.com.supera.gamestore.entities.User;
+import br.com.supera.gamestore.exceptions.EmptyCartException;
 import br.com.supera.gamestore.services.OrderService;
 import br.com.supera.gamestore.services.ProductService;
 import br.com.supera.gamestore.services.UserService;
@@ -34,8 +35,17 @@ public class OrderController {
 	}
 	
 	@PostMapping("/new-order")
-	public String orderPage(Long[] ids, Model model) {
+	public String newOrder(Long[] ids, Model model) {
 		List<Product> products = new ArrayList<>();
+		try {
+			if (ids.length == 0) {
+				productService.findProductById(0L);
+			}			
+		} catch (EmptyCartException error) {
+			model.addAttribute("error", error.getLocalizedMessage());
+			model.addAttribute("products", productService.findAllProducts());
+			return "index";
+		}
 		for (Long id: ids) {
 			products.add(productService.findProductById(id));			
 		}
@@ -61,7 +71,7 @@ public class OrderController {
 	}
 	
 	@GetMapping("/new-order")
-	public String order() {
+	public String newOrderPage() {
 		return "order";
 	}
 	
@@ -69,6 +79,6 @@ public class OrderController {
 	public String registerOrder(@AuthenticationPrincipal UserDetails userDetails, Order order) {
 		User user = userService.findUserByEmail(userDetails.getUsername());
 		orderService.insertOrder(order, user);
-		return "redirect:/products";
+		return "redirect:/";
 	}
 }
